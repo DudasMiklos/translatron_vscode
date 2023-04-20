@@ -2,7 +2,9 @@
   "name": "translatron",
   "displayName": "Translatron",
   "description": "Helper for the Translatron dart package",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "repository": "https://github.com/DudasMiklos/translatron_vscode",
+  "publisher": "DudsMiklsAntal",
   "engines": {
     "vscode": "^1.77.0"
   },
@@ -14,8 +16,8 @@
   "contributes": {
     "commands": [
       {
-        "command": "translatron.helloWorld",
-        "title": "Hello World"
+        "command": "translatron.addNewTranslationField",
+        "title": "Translatron : Add new translation field"
       }
     ]
   },

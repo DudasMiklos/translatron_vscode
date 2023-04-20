@@ -1,71 +1,117 @@
-# translatron README
+# Welcome to Translatron!
+**##!BETA  VERSION - NOT FOR LIVE OR PROD USAGE!**
 
-This is the README for your extension "translatron". After writing up a brief description, we recommend including the following sections.
+# Description
+Comming soon...
 
-## Features
+# Usage
+Comming soon...
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Initilazion
+#### Basic Initilazion
+```dart
+    void  main() async {
+		await  Translatron.init(
+			hostname:  "https://example.com",
+			versionPath:  "/api/translation/version",
+			translationsPath:  "/api/translation/translations",
+		);
+	]);
+```
+#### Initilazion with custom supported languages
+```dart
+    void  main() async {
+		await  Translatron.init(
+			hostname:  "https://example.com",
+			versionPath:  "/api/translation/version",
+			translationsPath:  "/api/translation/translations",
+			supportedLocales:  const [
+				Locale('hu'),
+				Locale('en'),
+			],
+		);
+	]);
+```
+	
+#### Initilazion with custom supported languages and custom api headers
+```dart
+    void  main() async {
+		await  Translatron.init(
+			hostname:  "https://example.com",
+			versionPath:  "/api/translation/version",
+			translationsPath:  "/api/translation/translations",
+			supportedLocales: const [
+				Locale('hu'),
+				Locale('en'),
+			],
+			apiHeaders: const {
+				"Authorization" : "Bearer $token",
+				"Content-Type: application/json"
+			}
+		);
+	]);
+```
+	
+#### Add the custom delegate to app
+```dart
+return  MaterialApp.router(
+	title:  'DemoApp',
+	localizationsDelegates:  const [
+		Translatron.delegate,
+		GlobalMaterialLocalizations.delegate,
+		GlobalWidgetsLocalizations.delegate,
+		GlobalCupertinoLocalizations.delegate,
+	],
+	//To change to your state management
+	locale: Provider.of<LocaleProvider>(context,  listen:  true).getlocale, 
+	supportedLocales:  Translatron.getSupportedLocales,
+);
+```
 
-For example if there is an image subfolder under your extension project workspace:
+#### Demo provider
+```dart
+class  LocaleProvider  with  ChangeNotifier {
+	Locale?  locale  =  Translatron.getSelectedLanguageLocale;
+	
+	Locale?  get  getlocale {
+		return  locale;
+	} 
 
-\!\[feature X\]\(images/feature-x.png\)
+	void  changeLocale(Locale  newLocale) {
+		locale  =  newLocale;
+		Translatron.setSelectedLanguageLocale  =  locale!;
+		notifyListeners();
+	}
+}
+```
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+#### Language change with provider
+```dart
+Provider.of<LocaleProvider>(context,  listen:  false)
+.changeLocale(const  Locale('hu',  'HU'));
+```
 
-## Requirements
+## Functions
+#### Translate, returns string
+```dart
+Translatron.of(context)!.translate("translation.key");
+```
+#### Return if language is active, returns bool
+```dart
+Translatron.isLanguageActice('en');
+```
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+#### Returns the supported locales in **List of Locale**
+```dart
+Translatron.getSupportedLocales;
+```
 
-## Extension Settings
+#### Returns the selected Language Locale, in some cases nullable
+```dart
+Translatron.getSelectedLanguageLocale;
+```
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+#### Sets the selected Language Locale, in some cases nullable
+```dart
+Translatron.setSelectedLanguageLocale  =  locale!;
+```
